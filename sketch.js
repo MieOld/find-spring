@@ -20,8 +20,8 @@ function setup() {
   let constraints = {
     video: {
       facingMode: { ideal: "environment" },
-      width: { ideal: 960 },
-      height: { ideal: 720 }
+      width: { ideal: 640 },
+      height: { ideal: 480 }
     }
   };
   video = createCapture(constraints);
@@ -69,7 +69,11 @@ function draw() {
   
   // 绘制保持正确比例的视频
   image(video, drawX, drawY, drawW, drawH);
+
+    
+
   
+  // 如果检测到手部，则不显示文本 "春天在哪里" 和 "尝试用两指靠近或拉开，发现更多春日美景"
   if (hands.length > 0) {
     let hand = hands[0];
     let thumbTip = hand.keypoints[4];
@@ -104,8 +108,8 @@ function draw() {
     pop();
     
     // 可选：绘制剪裁圆边框（调试用）
-    stroke(0);
-    strokeWeight(2);
+    stroke("#6CD5FF"); // 设置边框颜色为字体的蓝色
+    strokeWeight(5);
     noFill();
     ellipse(clipCenterX, clipCenterY, scaledRadius * 2, scaledRadius * 2);
     
@@ -119,11 +123,60 @@ function draw() {
       resetMatrix(); // 恢复默认变换，确保 PNG 框架位置正确
       image(frameImg, pngCenterX - frameSize / 2, pngCenterY - frameSize / 2, frameSize, frameSize);
     pop();
-  } else {
-    fill(0);
-    noStroke();
-    textSize(24);
+  }
+
+  // 绘制UI文字部分
+  // 左上角 "Seeking Spring"
+  fill("#FFFFFF");
+  noStroke();
+  textSize(24);
+  textAlign(LEFT, TOP);
+  textFont('Times New Roman'); // 英文字体（衬线字体）
+  text("Seeking Spring", 20, 20);
+  
+  // 左上角 "双指之间，春日可见"
+  fill("#6CD5FF");
+  noStroke();
+  textSize(12);
+  textAlign(LEFT, TOP);
+  textFont('SimSun'); // 中文字体（宋体）
+  text("双指之间，春日可见", 20, 50);
+
+  // 右上角 "寻·春"
+  fill("#6CD5FF");
+  textSize(48);
+  textAlign(RIGHT, TOP);
+  textFont('SimSun'); // 中文字体（宋体）
+  text("寻·春", width - 20, 20);
+
+  // 左下角 "march 2025"
+  fill("#6CD5FF");
+  textSize(18);
+  textAlign(LEFT, BOTTOM);
+  textFont('Times New Roman'); // 英文字体（衬线字体）
+  text("March 2025", 20, height - 20);
+
+  // 右下角 "By MieOld"
+  fill("#FFFFFF");
+  textSize(18);
+  textAlign(RIGHT, BOTTOM);
+  textFont('Times New Roman'); // 英文字体（衬线字体）
+  text("By MieOld", width - 20, height - 20);
+
+
+  // 在没有手时显示文本
+  if (hands.length === 0) {
+    fill("#6CD5FF");
+    textSize(32);
     textAlign(CENTER, CENTER);
-    text("请寻找春天", width / 2, height / 2);
+    textFont('SimSun'); // 中文字体（宋体）
+    text("春 天 在 哪 里", width / 2 , height * 0.6);
+    textSize(14);
+    textFont('Arial'); // 中文字体（无衬线字体）
+    fill("#FFFFFF");
+    text("尝试用两指靠近或拉开，发现更多春日美景。", width / 2, height * 0.7);
   }
 }
+
+
+
