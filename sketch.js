@@ -16,12 +16,12 @@ function setup() {
   // 降低帧率以提高性能
   frameRate(15);
   
-  // 创建摄像头视频，分辨率设为 640×480（比 320×240 清晰）
+  // 使用后置摄像头，视频分辨率设为 640x480（比 320x240 更清晰）
   let constraints = {
     video: {
       facingMode: { ideal: "environment" },
-      width: { ideal: 640 },
-      height: { ideal: 480 }
+      width: { ideal: 960 },
+      height: { ideal: 720 }
     }
   };
   video = createCapture(constraints);
@@ -39,7 +39,7 @@ function gotHands(results) {
   hands = results;
 }
 
-// 返回一只手中大拇指尖（索引4）与食指尖（索引8）之间距离的一半（基于视频坐标）
+// 返回一只手中大拇指尖（索引 4）与食指尖（索引 8）之间距离的一半（视频坐标下）
 function getHandRadius(hand) {
   let thumbTip = hand.keypoints[4];
   let indexTip = hand.keypoints[8];
@@ -47,63 +47,79 @@ function getHandRadius(hand) {
 }
 
 function draw() {
-  // 先绘制全屏视频
   background(255);
-  image(video, 0, 0, width, height);
   
-  // 若检测到手势，则绘制蒙版和 PNG 框架
+  // 计算视频绘制区域，保持原始宽高比
+  let videoAspect = video.width / video.height;
+  let canvasAspect = width / height;
+  let drawX, drawY, drawW, drawH;
+  if (canvasAspect > videoAspect) {
+    // 画布较宽，视频填满高度
+    drawH = height;
+    drawW = height * videoAspect;
+    drawX = (width - drawW) / 2;
+    drawY = 0;
+  } else {
+    // 画布较窄，视频填满宽度
+    drawW = width;
+    drawH = width / videoAspect;
+    drawX = 0;
+    drawY = (height - drawH) / 2;
+  }
+  
+  // 绘制保持正确比例的视频
+  image(video, drawX, drawY, drawW, drawH);
+  
   if (hands.length > 0) {
-    // 取第一只手的数据
     let hand = hands[0];
     let thumbTip = hand.keypoints[4];
     let indexTip = hand.keypoints[8];
     
     // 计算视频到画布的缩放因子
-    let scaleX = width / video.width;
-    let scaleY = height / video.height;
+    let scaleX = drawW / video.width;
+    let scaleY = drawH / video.height;
+    // 转换手指坐标到画布坐标（加上绘制区域偏移量）
+    let thumbX = thumbTip.x * scaleX + drawX;
+    let thumbY = thumbTip.y * scaleY + drawY;
+    let indexX = indexTip.x * scaleX + drawX;
+    let indexY = indexTip.y * scaleY + drawY;
     
-    // 转换坐标
-    let thumbX = thumbTip.x * scaleX;
-    let thumbY = thumbTip.y * scaleY;
-    let indexX = indexTip.x * scaleX;
-    let indexY = indexTip.y * scaleY;
-    
-    // 以大拇指尖和食指尖的中点作为圆心
-    let maskCenterX = (thumbX + indexX) / 2;
-    let maskCenterY = (thumbY + indexY) / 2;
-    // 半径为两点之间距离的一半（经过缩放）
+    // 计算剪裁蒙版的圆心和半径（圆心取大拇指和食指中点，半径为两者距离的一半）
+    let clipCenterX = (thumbX + indexX) / 2;
+    let clipCenterY = (thumbY + indexY) / 2;
     let rawRadius = getHandRadius(hand);
     let scaledRadius = ((rawRadius * scaleX) + (rawRadius * scaleY)) / 2;
     
-    // 绘制遮罩：使用偶数填充规则，将整个画布填充白色（透明度 90%），但圆形区域为空（显示视频原样）
+    // 绘制遮罩：用“evenodd”规则绘制整个画布的矩形，
+    // 再减去圆形区域（显示视频原样），其余区域白色覆盖，透明度90%
     push();
       let ctx = drawingContext;
       ctx.beginPath();
-      // 外部路径：整个画布
       ctx.rect(0, 0, width, height);
-      // 内部路径：蒙版区域
-      ctx.moveTo(maskCenterX + scaledRadius, maskCenterY);
-      ctx.arc(maskCenterX, maskCenterY, scaledRadius, 0, TWO_PI);
+      ctx.moveTo(clipCenterX + scaledRadius, clipCenterY);
+      ctx.arc(clipCenterX, clipCenterY, scaledRadius, 0, TWO_PI);
       ctx.closePath();
-      // 填充白色，90% 不透明（alpha = 0.9）
       ctx.fillStyle = "rgba(255,255,255,0.9)";
       ctx.fill("evenodd");
     pop();
     
-    // 绘制 PNG 框架图
-    // 以食指尖（索引8）为中心
+    // 可选：绘制剪裁圆边框（调试用）
+    stroke(0);
+    strokeWeight(2);
+    noFill();
+    ellipse(clipCenterX, clipCenterY, scaledRadius * 2, scaledRadius * 2);
+    
+    // 绘制 PNG 框架图：以食指尖为中心，尺寸按圆的大小变化
     let pngCenterX = indexX;
     let pngCenterY = indexY;
-    // PNG 图尺寸根据蒙版圆的直径和一个比例因子确定
     let scaleFactor = 1.5;
     let frameSize = scaledRadius * 2 * scaleFactor;
     
     push();
-      resetMatrix(); // 恢复默认变换
+      resetMatrix(); // 恢复默认变换，确保 PNG 框架位置正确
       image(frameImg, pngCenterX - frameSize / 2, pngCenterY - frameSize / 2, frameSize, frameSize);
     pop();
   } else {
-    // 没有检测到手时，可选择显示提示文字
     fill(0);
     noStroke();
     textSize(24);
