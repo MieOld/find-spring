@@ -129,49 +129,49 @@ function draw() {
   // 左上角 "Seeking Spring"
   fill("#FFFFFF");
   noStroke();
-  textSize(24);
+  textSize(36);
   textAlign(LEFT, TOP);
   textFont('Times New Roman'); // 英文字体（衬线字体）
-  text("Seeking Spring", 50, 100);
+  text("Seeking Spring", 80, 200);
   
   // 左上角 "双指之间，春日可见"
   fill("#6CD5FF");
   noStroke();
-  textSize(12);
+  textSize(24);
   textAlign(LEFT, TOP);
   textFont('SimSun'); // 中文字体（宋体）
-  text("双指之间，春日可见", 50, 130);
+  text("双指之间，春日可见", 80, 230);
 
   // 右上角 "寻·春"
   fill("#6CD5FF");
-  textSize(48);
+  textSize(64);
   textAlign(RIGHT, TOP);
   textFont('SimSun'); // 中文字体（宋体）
-  text("寻·春", width - 50, 100);
+  text("寻·春", width - 80, 200);
 
   // 左下角 "march 2025"
   fill("#6CD5FF");
-  textSize(18);
+  textSize(24);
   textAlign(LEFT, BOTTOM);
   textFont('Times New Roman'); // 英文字体（衬线字体）
-  text("March 2025", 50, height - 100);
+  text("March 2025", 80, height - 250);
 
   // 右下角 "By MieOld"
   fill("#FFFFFF");
-  textSize(18);
+  textSize(24);
   textAlign(RIGHT, BOTTOM);
   textFont('Times New Roman'); // 英文字体（衬线字体）
-  text("By MieOld", width - 50, height - 100);
+  text("By MieOld", width - 80, height - 250);
 
 
   // 在没有手时显示文本
   if (hands.length === 0) {
     fill("#6CD5FF");
-    textSize(32);
+    textSize(42);
     textAlign(CENTER, CENTER);
     textFont('SimSun'); // 中文字体（宋体）
-    text("春 天 在 哪 里", width / 2 , height * 0.6);
-    textSize(14);
+    text("春  天  在  哪  里", width / 2 , height * 0.6);
+    textSize(24);
     textFont('Arial'); // 中文字体（无衬线字体）
     fill("#FFFFFF");
     text("尝试用两指靠近或拉开，发现更多春日美景。", width / 2, height * 0.7);
