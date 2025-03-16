@@ -103,7 +103,7 @@ function draw() {
       ctx.moveTo(clipCenterX + scaledRadius, clipCenterY);
       ctx.arc(clipCenterX, clipCenterY, scaledRadius, 0, TWO_PI);
       ctx.closePath();
-      ctx.fillStyle = "rgba(255,255,255,0.9)";
+      ctx.fillStyle = "rgba(255,255,255,0.8)";
       ctx.fill("evenodd");
     pop();
     
@@ -132,7 +132,7 @@ function draw() {
   textSize(24);
   textAlign(LEFT, TOP);
   textFont('Times New Roman'); // 英文字体（衬线字体）
-  text("Seeking Spring", 20, 20);
+  text("Seeking Spring", 50, 100);
   
   // 左上角 "双指之间，春日可见"
   fill("#6CD5FF");
@@ -140,28 +140,28 @@ function draw() {
   textSize(12);
   textAlign(LEFT, TOP);
   textFont('SimSun'); // 中文字体（宋体）
-  text("双指之间，春日可见", 20, 50);
+  text("双指之间，春日可见", 50, 130);
 
   // 右上角 "寻·春"
   fill("#6CD5FF");
   textSize(48);
   textAlign(RIGHT, TOP);
   textFont('SimSun'); // 中文字体（宋体）
-  text("寻·春", width - 20, 20);
+  text("寻·春", width - 50, 100);
 
   // 左下角 "march 2025"
   fill("#6CD5FF");
   textSize(18);
   textAlign(LEFT, BOTTOM);
   textFont('Times New Roman'); // 英文字体（衬线字体）
-  text("March 2025", 20, height - 20);
+  text("March 2025", 50, height - 100);
 
   // 右下角 "By MieOld"
   fill("#FFFFFF");
   textSize(18);
   textAlign(RIGHT, BOTTOM);
   textFont('Times New Roman'); // 英文字体（衬线字体）
-  text("By MieOld", width - 20, height - 20);
+  text("By MieOld", width - 50, height - 100);
 
 
   // 在没有手时显示文本
