@@ -139,15 +139,15 @@ function draw() {
   noStroke();
   textSize(36);
   textAlign(LEFT, TOP);
-  textFont('SimSun'); // 中文字体（宋体）
-  text("双指之间，春日可见", 80, 280);
+  textFont('Songti SC'); // 中文字体（宋体）
+  text("双指之间，春日可见", 80, 300);
 
   // 右上角 "寻·春"
   fill("#6CD5FF");
   textSize(72);
   textAlign(RIGHT, TOP);
-  textFont('SimSun'); // 中文字体（宋体）
-  text("寻·春", width - 80, 230);
+  textFont('Songti SC'); // 中文字体（宋体）
+  text("寻·春", width - 80, 250);
 
   // 左下角 "march 2025"
   fill("#6CD5FF");
@@ -169,7 +169,7 @@ function draw() {
     fill("#6CD5FF");
     textSize(54);
     textAlign(CENTER, CENTER);
-    textFont('SimSun'); // 中文字体（宋体）
+    textFont('Songti SC'); // 中文字体（宋体）
     text("春  天  在  哪  里", width / 2 , height * 0.5);
     textSize(24);
     textFont('Arial'); // 中文字体（无衬线字体）
