@@ -116,7 +116,7 @@ function draw() {
     // 绘制 PNG 框架图：以食指尖为中心，尺寸按圆的大小变化
     let pngCenterX = indexX;
     let pngCenterY = indexY;
-    let scaleFactor = 1.5;
+    let scaleFactor = 2;
     let frameSize = scaledRadius * 2 * scaleFactor;
     
     push();
@@ -140,7 +140,7 @@ function draw() {
   textSize(36);
   textAlign(LEFT, TOP);
   textFont('Songti SC'); // 中文字体（宋体）
-  text("双指之间，春日可见", 80, 300);
+  text("双指之间，春日可见", 80, 310);
 
   // 右上角 "寻·春"
   fill("#6CD5FF");
