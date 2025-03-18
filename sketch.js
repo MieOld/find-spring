@@ -140,7 +140,7 @@ function draw() {
   textSize(36);
   textAlign(LEFT, TOP);
   textFont('Songti SC'); // 中文字体（宋体）
-  text("双指之间，春日可见", 80, 310);
+  text("双指之间，春日可见", 80, 300);
 
   // 右上角 "寻·春"
   fill("#6CD5FF");
