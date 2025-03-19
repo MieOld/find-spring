@@ -103,7 +103,7 @@ function draw() {
       ctx.moveTo(clipCenterX + scaledRadius, clipCenterY);
       ctx.arc(clipCenterX, clipCenterY, scaledRadius, 0, TWO_PI);
       ctx.closePath();
-      ctx.fillStyle = "rgba(255,255,255,0.8)";
+      ctx.fillStyle = "rgba(255,255,255,0.7)";
       ctx.fill("evenodd");
     pop();
     
